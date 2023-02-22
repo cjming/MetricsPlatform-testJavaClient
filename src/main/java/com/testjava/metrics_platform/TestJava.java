@@ -18,13 +18,9 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.wikimedia.metrics_platform.*;
 import org.wikimedia.metrics_platform.config.*;
-import org.wikimedia.metrics_platform.curation.CollectionCurationRules;
-import org.wikimedia.metrics_platform.curation.CurationRules;
 import org.wikimedia.metrics_platform.event.Event;
 
 public class TestJava {
-    private static final CurationFilter curationFilter = getCurationFilter();
-
     public static void main(String[] args) throws IOException {
         System.out.println("Testing the Java client:");
         submitEvent();
@@ -65,14 +61,12 @@ public class TestJava {
             );
 
             testJavaEventProcessor.sendEnqueuedEvents();
-
         }
     }
 
     private static Map<String, StreamConfig> getTestStreamConfigs(Reader reader) throws MalformedURLException {
         StreamConfigFetcher streamConfigFetcher = new StreamConfigFetcher(new URL(ANALYTICS_API_ENDPOINT));
         return streamConfigFetcher.parseConfig(reader);
-
     }
 
     private static MetricsClient getTestMetricsClient(
@@ -107,17 +101,5 @@ public class TestJava {
                 new TestJavaEventSender(),
                 eventQueue
         );
-    }
-
-    public static CurationFilter getCurationFilter() {
-        return CurationFilter.builder()
-                .pageTitleRules(CurationRules.<String>builder().isEquals("Test").build())
-                .performerGroupsRules(
-                        CollectionCurationRules.<String>builder()
-                                .doesNotContain("sysop")
-                                .containsAny(Arrays.asList("steward", "bureaucrat"))
-                                .build()
-                )
-                .build();
     }
 }

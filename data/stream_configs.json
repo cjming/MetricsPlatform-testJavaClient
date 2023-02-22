@@ -10,7 +10,6 @@
 			"producers": {
 				"metrics_platform_client": {
 					"events": [
-						"test_consistency_event",
 						"test_java_event"
 					],
 					"provide_values": [

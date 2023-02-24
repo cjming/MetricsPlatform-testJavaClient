@@ -22,6 +22,7 @@
 						"page_namespace",
 						"page_namespace_name",
 						"page_revision_id",
+						"page_wikidata_qid",
 						"page_content_language",
 						"page_is_redirect",
 						"page_user_groups_allowed_to_move",
@@ -46,7 +47,8 @@
 						"performer_language_variant",
 						"performer_can_probably_edit_page",
 						"performer_edit_count",
-						"performer_edit_count_bucket"
+						"performer_edit_count_bucket",
+						"performer_registration_dt"
 					]
 				}
 			}

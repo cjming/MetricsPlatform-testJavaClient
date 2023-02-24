@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.util.Collection;
-import java.util.Date;
 import java.util.stream.StreamSupport;
 
 import org.wikimedia.metrics_platform.ClientMetadata;
@@ -95,8 +95,8 @@ public class TestJavaClientMetadata implements ClientMetadata {
         return page.get("revision_id").getAsInt(); }
 
     @Override
-    public String getPageWikidataItemId() {
-        return page.get("wikidata_id").getAsString(); }
+    public String getPageWikidataItemQid() {
+        return page.get("wikidata_qid").getAsString(); }
 
     @Override
     public String getPageContentLanguage() {
@@ -220,10 +220,9 @@ public class TestJavaClientMetadata implements ClientMetadata {
     }
 
     @Override
-    public Long getPerformerRegistrationDt() {
-        long timestamp = performer.has("registration_dt") ?
-                Long.valueOf(performer.get("registration_dt").getAsString()) : new Date().getTime();
-        return timestamp;
+    public String getPerformerRegistrationDt() {
+        return performer.has("registration_dt") ?
+                performer.get("registration_dt").getAsString() : String.valueOf(Instant.now());
     }
 
     @Override

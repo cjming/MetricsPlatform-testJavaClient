@@ -1,6 +1,7 @@
 package com.testjava.metrics_platform;
 
 import static com.testjava.metrics_platform.TestJavaClientMetadata.createTestJavaClientMetadata;
+import static org.wikimedia.metrics_platform.MetricsClient.createMetricsClient;
 import static org.wikimedia.metrics_platform.config.StreamConfigFetcher.ANALYTICS_API_ENDPOINT;
 
 import java.io.BufferedReader;
@@ -23,8 +24,30 @@ import org.wikimedia.metrics_platform.event.Event;
 public class TestJava {
     public static void main(String[] args) throws IOException {
         System.out.println("Testing the Java client:");
-        submitEvent();
+//        submitEvent();
+        submitEventTest();
         System.out.println("Event submitted using the Java client :)");
+    }
+
+    public static void submitEventTest() throws IOException {
+        ClientMetadata testJavaClientMetadata = createTestJavaClientMetadata();
+
+//        StreamConfigFetcher streamConfigFetcher = new StreamConfigFetcher(new URL(ANALYTICS_API_ENDPOINT));
+//        SourceConfig sourceConfig = streamConfigFetcher.fetchStreamConfigs();
+
+        MetricsClient testJavaMetricsClient = createMetricsClient(
+                testJavaClientMetadata,
+                new TestJavaEventSender(),
+                10
+        );
+//        testJavaMetricsClient.setSourceConfig(sourceConfig);
+        Map<String, Object> customData = new HashMap<>();
+        customData.put("action", "surf");
+
+        testJavaMetricsClient.dispatch(
+                "eas.",
+                customData
+        );
     }
 
     public static void submitEvent() throws IOException {
